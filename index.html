@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-<title>UVCI Connect - Observatoire de la Présence Universitaire</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -190,7 +189,7 @@
             border-color: #444;
         }
 
-        /* Inverser les couleurs de la carte pour le mode nuit */
+        /* Inverser les couleurs de la  pour le mode nuit */
         .dark-mode .leaflet-tile-container {
             filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
         }
@@ -200,10 +199,10 @@
 <body>
 
     <header>
-        <button onclick="toggleDarkMode()" style="margin-right: 20px; padding: 8px 15px; cursor: pointer; border-radius: 20px; border: 1px solid var(--uvci-purple); background: transparent; color: var(--uvci-purple); font-weight: bold;">
+       <button onclick="toggleDarkMode()" style="margin-right: 20px; padding: 8px 15px; cursor: pointer; border-radius: 20px; border: 1px solid var(--uvci-purple); background: transparent; color: var(--uvci-purple); font-weight: bold;">
     🌙 Mode Nuit
 </button>
-        <marquee><div class="header-title">UVCI Connect: <span style="font-weight: normal; color: #555;">Observatoire de la
+       <marquee> <div class="header-title">UVCI Connect: <span style="font-weight: normal; color: #555;">Observatoire de la
                 Présence Universitaire</span></div></marquee>
         <img src="IdkpP2Gr.png" class="header-logo">
     </header>
@@ -216,7 +215,7 @@
                 <div style="font-size: 11px; opacity: 0.8;">Étudiants filtrés</div>
             </div>
 
-            <div class="card">
+     <div class="card">
                 <h3>🔍 Recherche</h3>
                 <input type="text" id="search" placeholder="Nom ou ville..."
                     style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" onkeyup="filtrer()">
@@ -286,7 +285,6 @@
                 <small>Promotion L3 - 2026</small>
                 <p style="font-style: italic; margin-top: 5px; font-size: 11px;">"Bâtir ensemble l'excellence
                     numérique."</p>
-            
             </div>
 
         </div>
@@ -366,7 +364,7 @@
                         <div class="popup-info">
                             <b>🎓 Niveau:</b> ${p.niveau || '-'}<br>
                             <b>📚 Spécialité:</b> ${p.specialite || '-'}<br>
-                            <b>📧 Email:</b> <span style="color:var(--uvci-purple)">${p.email || '-'}</span><br>
+                           <b>📧 Email:</b> <a href="mailto:${p.email}" style="color:var(--uvci-purple); font-weight:bold; text-decoration:underline;">${p.email || '-'}</a><br>
                             <b>📍 Ville:</b> ${villeTxt}<br>
                             ${communeTxt}
                             <b>🗺️ Quartier:</b> ${p.quartier || '-'}
@@ -374,10 +372,15 @@
                 
                     </div>`;
 
-                   layer.bindPopup(content, { closeButton: false });
-                    layer.on('mouseover', function () { this.setIcon(iconSel); this.openPopup(); });
-                    layer.on('mouseout', function () { this.setIcon(iconNorm); this.closePopup(); });
-                }
+                    layer.bindPopup(content, { closeButton: false });
+                    layer.bindPopup(content, { closeButton: true }); // Active la croix de fermeture
+
+                    layer.on('mouseover', function () { this.setIcon(iconSel); this.openPopup(); }); // Survol : ouvre
+
+                    layer.on('click', function () { this.openPopup(); }); // Clic : ouvre et reste fixé
+
+                    layer.on('mouseout', function () { this.setIcon(iconNorm); }); // Quitter : change l'icône mais NE FERME PLUS (pour pouvoir cliquer)
+                 }   
             }).addTo(map);
         }
 
@@ -417,7 +420,7 @@
     if (document.body.classList.contains('dark-mode')) {
         btn.innerHTML = "☀️ Mode Jour";
         btn.style.color = "#ffcc00";
-        btn.style.borderColor = "#ffcc00";
+        btn.style.borderColor ="#ffcc00"; 
     } else {
         btn.innerHTML = "🌙 Mode Nuit";
         btn.style.color = "var(--uvci-purple)";
@@ -427,17 +430,3 @@
 
         if (mesDonnees) afficher(mesDonnees);
     </script>
-</body>
-
-
-</html>
-
-
-
-
-
-
-
-
-
-
